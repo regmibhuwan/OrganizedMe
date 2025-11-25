@@ -1,8 +1,10 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Task, TaskCategory, MicroStep } from "../types";
 
-// Initialize Gemini client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize Gemini client with safety check for browser environments
+// This prevents "process is not defined" errors from crashing the app on load
+const apiKey = (typeof process !== "undefined" && process.env) ? process.env.API_KEY : "";
+const ai = new GoogleGenAI({ apiKey: apiKey });
 
 const modelName = "gemini-2.5-flash";
 
